@@ -23,8 +23,24 @@ dados_paises %>%
 dados_paises %>%
   mutate(idh_quartil = 
            cut (
-             idh, quantile(idh, c(0,0.25,0.5,0.75,1)),
-             include.lowest = TRUE,
-             labels = c('D', 'C', 'B', 'A')
+               idh, quantile(idh, c(0,0.25,0.5,0.75,1)),
+               include.lowest = TRUE,
+               labels = c('D', 'C', 'B', 'A')
              )
          )
+
+
+#Calculate quartils from competitividade to dataset
+dados_paises %>%
+  mutate(quartil = 
+           cut (
+               competitividade_indice, quantile(competitividade_indice, c(0,0.25,0.5,0.75,1)),
+               include.lowest = TRUE,
+               labels = c('D', 'C', 'B', 'A')
+             )
+         ) %>% 
+  ggplot(aes(x = pais, y = competitividade_indice, fill = quartil )) + geom_bar (stat = 'identity')
+
+
+
+
